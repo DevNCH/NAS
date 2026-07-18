@@ -8,8 +8,14 @@ func SetupRouter() *gin.Engine {
 
     router := gin.Default()
 
+	router.LoadHTMLGlob("web/templates/*")
+
+	router.Static("/static", "./web/static")
+
 	router.GET("/", func(c *gin.Context) {
-    	c.String(200, "Servidor NAS funcionando!")
+    	c.HTML(200, "index.html", gin.H{
+			"title": "Servidor NAS",
+		})
 	})
 
     return router
