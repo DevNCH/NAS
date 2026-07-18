@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .title }}</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/img/favicon.ico">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>{{ .title }}</h1>
+            <p class="subtitle">
+                Servidor de Arquivos para Ambientes Educacionais
+            </p>
+        </header>
+
+        <main>
+
+            <section class="status">
+
+                <h2>Status do Sistema</h2>
+
+                <div class="status-item">
+                    <span>🟢 Servidor HTTP</span>
+                    <strong>Online</strong>
+                </div>
+
+                <div class="status-item">
+                    <span>🟢 Banco de Dados</span>
+                    <strong>Conectado</strong>
+                </div>
+
+                <div class="status-item">
+                    <span>🟢 API</span>
+                    <strong>Funcionando</strong>
+                </div>
+
+            </section>
+
+            <section class="about">
+
+                <h2>Sobre o projeto</h2>
+
+                <p>
+                    O NAS Escolar é um servidor desenvolvido em Go para TV Box,
+                    permitindo armazenamento e compartilhamento de arquivos
+                    entre professores e alunos através da rede local.
+                </p>
+
+            </section>
+
+            <section class="actions">
+
+                <button disabled>Entrar</button>
+                <button disabled>Painel Administrativo</button>
+
+            </section>
+
+        </main>
+
+        <footer>
+
+            Projeto Hackathon • Go • Gin • SQLite
+
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
