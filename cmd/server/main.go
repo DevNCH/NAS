@@ -11,11 +11,17 @@ import (
 func main() {
 
 	if err := database.Connect(); err != nil {
-    	log.Fatal(err)
+		log.Fatal(err)
 	}
 
+	defer func() {
+		if err := database.Close(); err != nil {
+			log.Printf("Erro ao fechar banco: %v", err)
+		}
+	}()
+
 	if err := database.Migrate(); err != nil {
-    	log.Fatal(err)
+		log.Fatal(err)
 	}
 
 	router := routes.SetupRouter()
@@ -25,6 +31,4 @@ func main() {
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println("Servidor iniciado")
 }
