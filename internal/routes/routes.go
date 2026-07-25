@@ -43,6 +43,10 @@ func SetupRouter() *gin.Engine {
 		})
 	})
 
+	router.GET(
+		"/download/:id",
+		fileHandler.Download,
+	)
 	router.GET("/files", fileHandler.ListFiles)
 
 	// Rotas de autenticação (públicas)
@@ -54,6 +58,7 @@ func SetupRouter() *gin.Engine {
 	protected.Use(middleware.RequireAuth(sessions))
 	{
 		protected.GET("/me", authHandler.Me)
+		protected.POST("/upload", fileHandler.Upload)
 	}
 
 	// Exemplo de rota restrita a administradores

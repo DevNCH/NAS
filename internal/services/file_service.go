@@ -18,7 +18,18 @@ func NewFileService(
 	}
 }
 
-func (s *FileService) SaveMetadata(
+func (s *FileService) ListFiles() ([]models.File, error) {
+	return s.fileRepo.GetAll()
+}
+
+func (s *FileService) GetFile(
+	id int,
+) (*models.File, error) {
+
+	return s.fileRepo.GetByID(id)
+}
+
+func (s *FileService) Upload(
 	filename string,
 	filepath string,
 	size int64,
@@ -33,12 +44,4 @@ func (s *FileService) SaveMetadata(
 	}
 
 	return s.fileRepo.Create(&file)
-}
-
-func (s *FileService) ListFiles() ([]models.File, error) {
-	return s.fileRepo.GetAll()
-}
-
-func (s *FileService) GetFile(id int) (*models.File, error) {
-	return s.fileRepo.GetByID(id)
 }
