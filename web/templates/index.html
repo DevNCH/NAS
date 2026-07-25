@@ -23,55 +23,94 @@
 
         <main>
 
-            <section class="status">
+            <!-- TELA DE LOGIN -->
+            <section id="view-login" class="panel">
 
-                <h2>Status do Sistema</h2>
+                <h2 class="panel-title">Entrar</h2>
 
-                <div class="status-item">
-                    <span>🟢 Servidor HTTP</span>
-                    <strong>Online</strong>
-                </div>
+                <form id="login-form" class="form" autocomplete="on">
 
-                <div class="status-item">
-                    <span>🟢 Banco de Dados</span>
-                    <strong>Conectado</strong>
-                </div>
+                    <label class="field">
+                        <span>Usuário</span>
+                        <input type="text" id="login-username" name="username" autocomplete="username" required>
+                    </label>
 
-                <div class="status-item">
-                    <span>🟢 API</span>
-                    <strong>Funcionando</strong>
-                </div>
+                    <label class="field">
+                        <span>Senha</span>
+                        <input type="password" id="login-password" name="password" autocomplete="current-password" required>
+                    </label>
 
-            </section>
+                    <button type="submit" class="btn btn-primary">Entrar</button>
 
-            <section class="about">
+                    <p id="login-error" class="msg msg-error" hidden></p>
 
-                <h2>Sobre o projeto</h2>
-
-                <p>
-                    O NAS Escolar é um servidor desenvolvido em Go para TV Box,
-                    permitindo armazenamento e compartilhamento de arquivos
-                    entre professores e alunos através da rede local.
-                </p>
+                </form>
 
             </section>
 
-            <section class="actions">
+            <!-- PAINEL PRINCIPAL (pós-login) -->
+            <section id="view-dashboard" class="panel" hidden>
 
-                <button disabled>Entrar</button>
-                <button disabled>Painel Administrativo</button>
+                <div class="userbar">
+                    <div class="userbar-info">
+                        <span class="userbar-name" id="user-name">—</span>
+                        <span class="badge" id="user-role">—</span>
+                    </div>
+                    <button id="btn-logout" class="btn btn-ghost">Sair</button>
+                </div>
+
+                <div class="upload-row">
+                    <label class="file-picker" for="file-input">
+                        <span id="file-picker-label">Escolher arquivo</span>
+                    </label>
+                    <input type="file" id="file-input" hidden>
+                    <button id="btn-upload" class="btn btn-primary" disabled>Enviar</button>
+                </div>
+
+                <p id="upload-msg" class="msg" hidden></p>
+
+                <div class="files-head">
+                    <h2 class="panel-title">Arquivos</h2>
+                    <button id="btn-refresh" class="btn btn-ghost btn-small" title="Atualizar lista">↻ Atualizar</button>
+                </div>
+
+                <div id="files-empty" class="empty" hidden>
+                    Nenhum arquivo enviado ainda.
+                </div>
+
+                <table id="files-table" class="files-table" hidden>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Tamanho</th>
+                            <th>Enviado em</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="files-body"></tbody>
+                </table>
+
+                <div id="admin-panel" class="admin-panel" hidden>
+                    <span>🔑 Painel administrativo</span>
+                    <button id="btn-admin-ping" class="btn btn-small btn-ghost">Testar acesso admin</button>
+                    <span id="admin-ping-result" class="admin-ping-result"></span>
+                </div>
 
             </section>
 
         </main>
 
-        <footer>
-
-            Projeto Hackathon • Go • Gin • SQLite
-
+        <footer class="footer">
+            <div class="status-strip">
+                <span class="status-dot" id="status-dot"></span>
+                <span id="status-text">conectando ao servidor…</span>
+            </div>
+            <div class="footer-credit">Projeto Hackathon • Go • Gin • SQLite</div>
         </footer>
 
     </div>
+
+    <script src="/static/js/app.js"></script>
 
 </body>
 
