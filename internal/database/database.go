@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"os"
 
 	_ "modernc.org/sqlite"
 )
@@ -10,6 +11,10 @@ import (
 var DB *sql.DB
 
 func Connect() error {
+
+	if err := os.MkdirAll("data", 0755); err != nil {
+		return err
+	}
 
 	db, err := sql.Open("sqlite", "data/banco.db")
 	if err != nil {
@@ -28,9 +33,9 @@ func Connect() error {
 }
 
 func GetDB() *sql.DB {
-    return DB
+	return DB
 }
 
 func Close() error {
-    return DB.Close()
+	return DB.Close()
 }

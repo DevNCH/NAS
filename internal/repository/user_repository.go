@@ -111,3 +111,15 @@ func (r *UserRepository) GetByID(id int) (*models.User, error) {
 
 	return &user, nil
 }
+
+func (r *UserRepository) HasUsers() (bool, error) {
+
+	var count int
+
+	err := r.db.QueryRow("SELECT COUNT(*) FROM users").Scan(&count)
+	if err != nil {
+		return false, err
+	}
+
+	return count > 0, nil
+}
