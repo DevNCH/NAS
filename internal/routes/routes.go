@@ -1,7 +1,12 @@
 package routes
 
 import (
+	"time"
+
+	"github.com/DevNCH/NAS/internal/auth"
 	"github.com/DevNCH/NAS/internal/database"
+	"github.com/DevNCH/NAS/internal/handlers"
+	"github.com/DevNCH/NAS/internal/middleware"
 	"github.com/DevNCH/NAS/internal/repository"
 	"github.com/DevNCH/NAS/internal/services"
 
@@ -18,7 +23,15 @@ func SetupRouter() *gin.Engine {
 
 	authService := services.NewAuthService(userRepo)
 
-	_ = authService // temporário para não dar erro de variável não utilizada
+	sessions := auth.NewSessionManager(24 * time.Hour)
+
+	authHandler := handlers.NewAuthHandler(authService, sessions)
+
+	fileRepo := repository.NewFileRepository(db)
+
+	fileService := services.NewFileService(fileRepo)
+
+	fileHandler := handlers.NewFileHandler(fileService)
 
 	router.LoadHTMLGlob("web/templates/*")
 
@@ -29,6 +42,28 @@ func SetupRouter() *gin.Engine {
 			"title": "Servidor NAS",
 		})
 	})
+
+	router.GET("/files", fileHandler.ListFiles)
+
+	// Rotas de autenticação (públicas)
+	router.POST("/login", authHandler.Login)
+	router.POST("/logout", authHandler.Logout)
+
+	// Rotas protegidas: exigem sessão válida
+	protected := router.Group("/")
+	protected.Use(middleware.RequireAuth(sessions))
+	{
+		protected.GET("/me", authHandler.Me)
+	}
+
+	// Exemplo de rota restrita a administradores
+	admin := router.Group("/admin")
+	admin.Use(middleware.RequireAuth(sessions), middleware.RequireRole("admin"))
+	{
+		admin.GET("/ping", func(c *gin.Context) {
+			c.JSON(200, gin.H{"message": "pong, admin"})
+		})
+	}
 
 	return router
 }
