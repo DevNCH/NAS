@@ -18,9 +18,14 @@ func Seed() error {
 		return nil
 	}
 
+	hash, _ := bcrypt.GenerateFromPassword(
+		[]byte("admin123"),
+		bcrypt.DefaultCost,
+	)
+
 	admin := &models.User{
 		Username:     "admin",
-		PasswordHash: "admin123",
+		PasswordHash: string(hash),
 		Role:         "admin",
 	}
 
