@@ -18,6 +18,10 @@ func main() {
     	log.Fatal(err)
 	}
 
+	if err := database.Seed(); err != nil {
+		log.Fatal(err)
+	}
+
 	router := routes.SetupRouter()
 
 	fmt.Println("Servidor iniciado na porta 8080")
