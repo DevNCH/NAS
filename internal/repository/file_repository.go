@@ -96,6 +96,7 @@ func (r *FileRepository) GetAll() ([]models.File, error) {
 	`
 
 	rows, err := r.DB.Query(query)
+
 	if err != nil {
 		return nil, err
 	}
@@ -122,6 +123,10 @@ func (r *FileRepository) GetAll() ([]models.File, error) {
 		}
 
 		files = append(files, file)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return files, nil

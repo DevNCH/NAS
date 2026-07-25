@@ -1,6 +1,8 @@
 package services
 
 import (
+	"errors"
+
 	"github.com/DevNCH/NAS/internal/models"
 	"github.com/DevNCH/NAS/internal/repository"
 
@@ -25,6 +27,12 @@ func (s *AuthService) Register(
 	password string,
 	role string,
 ) error {
+
+	existingUser, _ := s.userRepo.GetByUsername(username)
+
+	if existingUser != nil {
+		return errors.New("usuário já existe")
+	}
 
 	hash, err := bcrypt.GenerateFromPassword(
 		[]byte(password),

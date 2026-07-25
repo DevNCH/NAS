@@ -71,6 +71,10 @@ func (r *UserRepository) GetByUsername(username string) (*models.User, error) {
 		&user.CreatedAt,
 	)
 
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+
 	if err != nil {
 		return nil, err
 	}
